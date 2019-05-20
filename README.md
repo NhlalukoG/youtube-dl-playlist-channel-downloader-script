@@ -5,7 +5,7 @@ Therefore I take no credit for the tool used to download the video, I merely as 
 created a script to auto download a playlist to a given directory
 
 script usage:
-	./youtube-dl-playlist [optional options] [playlist url]
+	- ./youtube-dl-playlist [optional options] [playlist url]
 
 	- by default it downloads to the current directory you are at
 
