@@ -15,8 +15,17 @@ options:
 		recommended value is 1 = 1,2,3,4...
 		Anyvalue looks like: 01 = 01,02,03...
 	-d [directory]: Is the directory you want your videos to be saved when downloading (default is current)
-	-s : setup, pushes the script to system allowing it be called directly from the terminal without path
-	   : After setup, usage : youtube-dl-playlist [optional options] [playlist url]
+	-s [valye]	: 1 - Will be downloaded to current directory.
+		 	: 2 - Will download as root and save in /usr/local/bin"
+	   : After setup, usage 1: ./youtube-dl-playlist [optional options] [playlist url]
+				2: youtube-dl-playlist [optional options] [playlist url]
+
+example:
+	youtube-dl-playlist [playlist url] - Will download playlist to current directory without auto numbering (default)
+	youtube-dl-playlist -s 1 - Will download youtube-dl to current directory and you use it with ./
+	youtube-dl-playlist -d [path to directory] [playlist url] - Will download playlist to specified directory
+	youtube-dl-playlist -a 1 [playlist url] - Will download to current directory and number your videos on [1,2,3,4,...]
+	youtube-dl-playlist -d [path to directory] -a 01 [playlist url] - Will download to given path with numbering [01,02,03,...]
 
 This script uses youtube-dl which is property of https://ytdl-org.github.io/youtube-dl/about.html 
 
