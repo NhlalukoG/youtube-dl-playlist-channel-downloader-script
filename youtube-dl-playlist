@@ -8,6 +8,7 @@ else
 		echo "Parameters: "
 		echo -e "-d [directory to save to]"
 		echo -e "-a [Increment. 1 = 1,2,3 ;01 = 01,02,03...] -> [auto number videos]"
+		echo -e "-s [1 or 2] -> get youtube-dl. 1: Will be downloaded to current directory. 2: Will download as root and save in"
 		echo -e "\nThis script uses youtube-dl which is property of https://ytdl-org.github.io/youtube-dl/about.html \n"
 		echo "For all complete info on how to use youtube-dl visit https://github.com/ytdl-org/youtube-dl"
 		echo "Again, I take no credit whatsover for the development of youtube-dl, I just got some request on a script to auto download a playlist"
@@ -20,7 +21,7 @@ else
 		echo "download complete, downloading your playlist now."
 	fi
 	autonumber=""
-	directory=""
+	directory="."
 	while getopts ":d:a:" opt; do
 		case ${opt} in
 			d)
@@ -28,6 +29,15 @@ else
 				;;
 			a)
 				autonumber=`echo "%(playlist_index)$OPTARG"d-`
+				;;
+			s)
+				if [ $OPTARG -eq 1 ]; then
+					curl -L https://yt-dl.org/downloads/latest/youtube-dl -o youtube-dl
+					chmod a+rx youtube-dl
+				else
+					sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+					sudo chmod a+rx /usr/local/bin/youtube-dl
+				fi
 				;;
 			\?)
 				echo "Invalid option: $OPTARG" 1>&2
@@ -38,9 +48,14 @@ else
 	[ "${1:-}" = "--" ] && shift
 	playlist=$@
 	output="$autonumber%(title)s.%(ext)s"
-	if [ -d $diretory ] ;then 
+	if [ -d $diretory ] ;then
+		echo "Setting directory"
 		output="$directory/$autonumber%(title)s.%(ext)s"
 	fi
 	echo $output
-	youtube-dl -f best -ciw -o $output $playlist
+	if which youtube-dl >> /dev/null; then
+		youtube-dl -f best -ciw -o $output $playlist
+	else
+		./youtube-dl -f best -ciw -o $output $playlist
+	fi
 fi
